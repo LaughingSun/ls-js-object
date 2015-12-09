@@ -55,21 +55,23 @@ public:
       Null ( T ) {
       }
       
-      explicit operator std::string ( ) {
-//        std::cout << "explicit operator std::string ( )" << std::endl;
-        return _Null_cstr;
-      }  
-      
-      explicit operator const char* ( ) {
-//        std::cout << "explicit operator const char* ( )" << std::endl;
+      operator std::string ( ) const {
         return _Null_cstr;
       }
       
       template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, T>::type=0>
-      explicit operator T ( ) {
-        std::cout << "explicit operator T ( )" << std::endl;
+      explicit operator const T ( ) const {
         return _Null_valueof;
       }
+      
+      explicit operator float ( ) const {
+        return (float)_Null_valueof;
+      }
+      
+      explicit operator double ( ) const {
+        return (double)_Null_valueof;
+      }
+      
       
     };  // Null
 

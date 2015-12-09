@@ -27,21 +27,21 @@ int main()
   Boolean  a13( std::string( "13" ) );
   Boolean  a14( std::string( "14.5" ) );
   
-  std::cout << "a0 => " << a0 << std::endl;
-  std::cout << "a1 => " << a1 << std::endl;
-  std::cout << "a2 => " << a2 << std::endl;
-  std::cout << "a3 => " << a3 << std::endl;
-  std::cout << "a4 => " << a4 << std::endl;
-  std::cout << "a5 => " << a5 << std::endl;
-  std::cout << "a6 => " << a6 << std::endl;
-  std::cout << "a7 => " << a7 << std::endl;
-  std::cout << "a8 => " << a8 << std::endl;
-  std::cout << "a9 => " << a9 << std::endl;
-  std::cout << "a10 => " << a10 << std::endl;
-  std::cout << "a11 => " << a11 << std::endl;
-  std::cout << "a12 => " << a12 << std::endl;
-  std::cout << "a13 => " << a13 << std::endl;
-  std::cout << "a14 => " << a14 << std::endl;
+  std::cout << "a0 => " << a0 << ", sizeof( a0 ) => " << sizeof( a0 ) << std::endl;
+  std::cout << "a1 => " << a1 << ", sizeof( a1 ) => " << sizeof( a1 ) << std::endl;
+  std::cout << "a2 => " << a2 << ", sizeof( a2 ) => " << sizeof( a2 ) << std::endl;
+  std::cout << "a3 => " << a3 << ", sizeof( a3 ) => " << sizeof( a3 ) << std::endl;
+  std::cout << "a4 => " << a4 << ", sizeof( a4 ) => " << sizeof( a4 ) << std::endl;
+  std::cout << "a5 => " << a5 << ", sizeof( a5 ) => " << sizeof( a5 ) << std::endl;
+  std::cout << "a6 => " << a6 << ", sizeof( a6 ) => " << sizeof( a6 ) << std::endl;
+  std::cout << "a7 => " << a7 << ", sizeof( a7 ) => " << sizeof( a7 ) << std::endl;
+  std::cout << "a8 => " << a8 << ", sizeof( a8 ) => " << sizeof( a8 ) << std::endl;
+  std::cout << "a9 => " << a9 << ", sizeof( a9 ) => " << sizeof( a9 ) << std::endl;
+  std::cout << "a10 => " << a10 << ", sizeof( a10 ) => " << sizeof( a10 ) << std::endl;
+  std::cout << "a11 => " << a11 << ", sizeof( a11 ) => " << sizeof( a11 ) << std::endl;
+  std::cout << "a12 => " << a12 << ", sizeof( a12 ) => " << sizeof( a12 ) << std::endl;
+  std::cout << "a13 => " << a13 << ", sizeof( a13 ) => " << sizeof( a13 ) << std::endl;
+  std::cout << "a14 => " << a14 << ", sizeof( a14 ) => " << sizeof( a14 ) << std::endl;
   
   std::cout << "std::string( a0 ) => " << std::string( a0 ) << std::endl;
   std::cout << "std::string( a1 ) => " << std::string( a1 ) << std::endl;

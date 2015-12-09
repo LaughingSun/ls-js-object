@@ -44,110 +44,119 @@ namespace ls
     using integral_t = long;
     using floating_point_t = double;
     
-    enum number_type {
-      t_integral
-      , t_floating_point
-    };
-    
-    static const char* cstr_integral = "integral";
-    static const char* cstr_floating_point = "floating_point";
-    
-    using number_value_t = struct number_value {
-    
-      enum number_type type;
+    class Number
+    {
+
+    public:
       
-      union {
-        integral_t integral;
-        floating_point_t floating_point;
-      } value;
+      enum number_type {
+        t_integral
+        , t_floating_point
+      };
       
-      number_value ( ) {
-        type = t_integral;
-        value.integral = 0;
-//        std::cout << "number_value ( )" << std::endl;
+      union number_value {
+        integral_t _integral;
+        floating_point_t _floating_point;
+        
+      };
+      
+      Number ( ) : _value( { ._integral = 0 } ), _type( t_integral ) {
+        std::cout << "Number ( ): integral_t " << _value._integral << std::endl;
       }
-
-      template <typename T>
-      number_value ( T val, typename std::enable_if<std::is_integral<T>::value, T>::type=0 ) {
-        type = t_integral;
-        value.integral = val;
-//        std::cout << "number_value ( T val, typename std::enable_if<std::is_integral<T>::value, T>::type=0 )" << std::endl;
-      }
-
-      template <typename T>
-      number_value ( T val, typename std::enable_if<std::is_floating_point<T>::value, T>::type=0 ) {
-        type = t_floating_point;
-        value.floating_point = val;
-//        std::cout << "number_value ( T val, typename std::enable_if<std::is_floating_point<T>::value, T>::type=0 )" << std::endl;
-      }
-
-      number_value ( std::string str ) {
-        size_t idx = 0;
-        double val = std::stod( str, &idx );
-        long lval = long(val);
-        if ( val == double(lval) ) {
-          type = t_integral;
-          value.integral = lval;
+      
+      Number ( std::string val ) : _value( { ._integral = 0 } ), _type( t_integral ) {
+        floating_point_t f = std::stod( val );
+        integral_t       i = std::stol( val );
+        if ( f == i ) {
+          _value._integral = i;
         } else {
-          type = t_floating_point;
-          value.floating_point = val;
+          _value._floating_point = f;
+          _type = t_floating_point;
         }
+      }
+      
+      Number ( Number& val ) : _value( { ._integral = 0 } ), _type( t_integral ) {
+        if ( val.type() == Number::t_floating_point ) {
+          _value._integral = val.get_integral( );
+        } else {
+          _value._floating_point = val.get_floating_point( );
+          _type = t_floating_point;
+        }
+      }
+      
+      template <typename T>
+      explicit Number ( T val=0, typename std::enable_if<std::is_integral<T>::value, T>::type=0 )
+          : _value( { ._integral = val } ), _type( t_integral ) {
+        std::cout << "Number ( " << val << " ): " << _value._integral << std::endl;
+      }
+
+      template <typename T>
+      explicit Number ( T val, typename std::enable_if<std::is_floating_point<T>::value, T>::type=0 )
+          : _value( { ._floating_point = val } ), _type( t_floating_point ) {
+        std::cout << "Number ( " << val << " ): " << _value._floating_point << std::endl;
       }
 
       operator std::string ( ) {
         std::stringstream ss;
-        ss << ( ( type == t_integral ) ? value.integral : value.floating_point );
-        return ss.str( );
+        ss << ( ( _type == t_floating_point ) 
+            ? _value._floating_point : _value._integral );
+        return ss.str();
       }  
-    
+      
+      template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, T>::type=0>
+      explicit operator const T ( ) const {
+        return ( _type == t_floating_point ) 
+            ? _value._floating_point : _value._integral;
+      }
+      
+      template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, T>::type=0>
+      explicit operator T ( ) const {
+        return ( _type == t_floating_point ) 
+            ? _value._floating_point : _value._integral;
+      }
+      
+      integral_t get_integral ( ) {
+        return ( _type == t_floating_point ) 
+            ? _value._floating_point : _value._integral;
+      }
+      
+      floating_point_t get_floating_point ( ) {
+        return ( _type == t_floating_point ) 
+            ? _value._floating_point : _value._integral;
+      }
+      
+      enum number_type type () {
+        return _type;
+      }
+      
       const char* gettype () {
-        return ( type == t_integral ) ? cstr_integral : cstr_floating_point;
+        return types_cstr_list[_type];
       }
       
-    }; // using number_value_t = struct number_value
-    
-    std::ostream& operator<< ( std::ostream& os, number_value &val )
-    {
-//      std::cout << "std::ostream& operator<< ( std::ostream& os, number_value &val )" << std::endl;
-      os << ( ( val.type == t_integral ) 
-          ? val.value.integral : val.value.floating_point );
-      return os;
-    }
-    
-    class Number
-    {
-
-    protected:
+private:
       
-      number_value_t  _val;
-        
-    public:
+      union number_value  _value;
+      enum number_type _type;
       
-      Number ( ) : _val( 0 ) {
-      }
+      static const char* t_integral_cstr;
+      static const char* t_floating_point_cstr;
       
-      Number ( std::string val ) : _val( val ) {
-      }
-      
-      Number ( const char* val ) : _val( std::string( val ) ) {
-      }
-      
-      Number ( char* val ) : _val( std::string( val ) ) {
-      }
-      
-      template <typename T>
-      Number ( T val, typename std::enable_if<std::is_arithmetic<T>::value, T>::type=0 ) : _val( val ) {
-      }
-
-      operator std::string ( ) {
-        return std::string( _val );
-      }  
+      static const char* types_cstr_list[];
       
     };  // Number
 
+    const char* Number::t_integral_cstr      = "null";
+    const char* Number::t_floating_point_cstr   = "boolean";
+    
+    const char* Number::types_cstr_list[] = {
+      t_integral_cstr
+      , t_floating_point_cstr
+    };
+    
     std::ostream& operator<< ( std::ostream& os, Number &val )
     {
-        os << std::string( val );
+        os << ( ( val.type() == Number::t_floating_point ) 
+            ? val.get_floating_point( ) : val.get_integral( ) );
         return os;
     }
     
