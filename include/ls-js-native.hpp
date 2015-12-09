@@ -41,6 +41,8 @@ namespace ls
   namespace js
   {
     
+    using floating_point_t = double;
+    
     using integral_t = long;
     using floating_point_t = double;
     
@@ -52,7 +54,7 @@ namespace ls
     static const char* cstr_integral = "integral";
     static const char* cstr_floating_point = "floating_point";
     
-    using number_value_t = struct number_value {
+    using native_value_t = struct number_value {
     
       enum number_type type;
       
@@ -104,7 +106,7 @@ namespace ls
         return ( type == t_integral ) ? cstr_integral : cstr_floating_point;
       }
       
-    }; // using number_value_t = struct number_value
+    }; // using native_value_t = struct number_value
     
     std::ostream& operator<< ( std::ostream& os, number_value &val )
     {
@@ -114,38 +116,38 @@ namespace ls
       return os;
     }
     
-    class Number
+    class Native
     {
 
     protected:
       
-      number_value_t  _val;
+      native_value_t  _val;
         
     public:
       
-      Number ( ) : _val( 0 ) {
+      Native ( ) : _val( 0 ) {
       }
       
-      Number ( std::string val ) : _val( val ) {
+      Native ( std::string val ) : _val( val ) {
       }
       
-      Number ( const char* val ) : _val( std::string( val ) ) {
+      Native ( const char* val ) : _val( std::string( val ) ) {
       }
       
-      Number ( char* val ) : _val( std::string( val ) ) {
+      Native ( char* val ) : _val( std::string( val ) ) {
       }
       
       template <typename T>
-      Number ( T val, typename std::enable_if<std::is_arithmetic<T>::value, T>::type=0 ) : _val( val ) {
+      Native ( T val, typename std::enable_if<std::is_arithmetic<T>::value, T>::type=0 ) : _val( val ) {
       }
 
       operator std::string ( ) {
         return std::string( _val );
       }  
       
-    };  // Number
+    };  // Native
 
-    std::ostream& operator<< ( std::ostream& os, Number &val )
+    std::ostream& operator<< ( std::ostream& os, Native &val )
     {
         os << std::string( val );
         return os;
