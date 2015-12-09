@@ -24,8 +24,8 @@ THE SOFTWARE
  */
 
 
-#ifndef LS_JS_NUMBER_HPP
-#define LS_JS_NUMBER_HPP
+#ifndef LS_JS_NATIVE_HPP
+#define LS_JS_NATIVE_HPP
 
 #include <cstdlib>
 #include <cstring>
@@ -155,5 +155,5 @@ namespace ls
 
 };  // namespace ls
 
-#endif  // LS_JS_NUMBER_HPP
+#endif  // LS_JS_NATIVE_HPP
 
