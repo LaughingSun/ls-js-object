@@ -103,14 +103,24 @@ namespace ls
         return ss.str();
       }  
       
-      template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, T>::type=0>
-      explicit operator const T ( ) const {
+//      template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, T>::type=0>
+//      explicit operator const T ( ) const {
+//        return ( _type == t_floating_point ) 
+//            ? _value._floating_point : _value._integral;
+//      }
+      
+      template <typename T, typename std::enable_if<std::is_integral<T>::value, T>::type=0>
+      explicit operator T ( ) const {
         return ( _type == t_floating_point ) 
             ? _value._floating_point : _value._integral;
       }
       
-      template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, T>::type=0>
-      explicit operator T ( ) const {
+      explicit operator float ( ) const {
+        return ( _type == t_floating_point ) 
+            ? _value._floating_point : _value._integral;
+      }
+      
+      explicit operator double ( ) const {
         return ( _type == t_floating_point ) 
             ? _value._floating_point : _value._integral;
       }

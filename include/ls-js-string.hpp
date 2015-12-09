@@ -86,6 +86,37 @@ public:
         return _val;
       }
       
+      template <typename T, typename std::enable_if<std::is_integral<T>::value, T>::type=0>
+      explicit operator T ( ) const {
+        size_t offset = 0;
+        try {
+          return std::stol( _val, &offset, 0 );
+        } catch(const std::exception& e) {
+        }
+        
+        return 0;
+      }
+      
+      explicit operator float ( ) const {
+        size_t offset = 0;
+        try {
+          return std::stod( _val, &offset );
+        } catch(const std::exception& e) {
+        }
+        
+        return 0;
+      }
+      
+      explicit operator double ( ) const {
+        size_t offset = 0;
+        try {
+          return std::stod( _val, &offset );
+        } catch(const std::exception& e) {
+        }
+        
+        return 0;
+      }
+      
     };  // String
     
     std::ostream& operator<< ( std::ostream& os, String &val )
