@@ -1,12 +1,10 @@
 
 #include "ls-js-string.hpp"
 
-#define LS_JS_OBJECT String
-#include "../include/test.hpp"
-
 int main()
 {
-  test( );
+  #define LS_JS_OBJECT String
+  #include "../include/test.hpp"
   
   return 0;
 }
