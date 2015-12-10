@@ -9,8 +9,16 @@
 #define LPAREN (
 #define RPAREN )
 
+std::string tmp;
+
 #define LS_JS_CAST(a,b,c) \
 std::cout << #b << "( " << #c << DQUOTE(a) << " ) => " << b( EXPAND(a,c) ) << std::endl;
+
+#define LS_JS_STRINGIFY(a,b) \
+std::cout << #b << DQUOTE(a) << ".stringify( ) => " << (tmp = EXPAND(a,b).stringify( )) << std::endl;
+
+#define LS_JS_PARSE(a) \
+std::cout << #a << "::Parse( '" << tmp << "' ) => " << a::Parse( tmp ) << std::endl;
 
 #define LS_JS_TEST(a,b,c) \
 a EXPAND(a,b) c; \
@@ -22,7 +30,9 @@ LS_JS_CAST(a,short,b) \
 LS_JS_CAST(a,int,b) \
 LS_JS_CAST(a,long,b) \
 LS_JS_CAST(a,float,b) \
-LS_JS_CAST(a,double,b)
+LS_JS_CAST(a,double,b) \
+LS_JS_STRINGIFY(a,b) \
+LS_JS_PARSE(a)
 
 #define LS_JS_TEST2(a,b,c,d,e) \
 a EXPAND(a,b) LPAREN c EXPAND(a,d) e RPAREN; \
@@ -47,10 +57,28 @@ LS_JS_CAST(a,int,b) \
 LS_JS_CAST(a,long,b) \
 LS_JS_CAST(a,float,b) \
 LS_JS_CAST(a,double,b)
+
 #endif
 
 
 using namespace ls::js;
+
+//LS_JS_OBJECT s1String( "43.2" );
+//std::cout << s1String << std::endl;
+//std::string result = s1String.stringify( );
+//std::cout << result << std::endl;
+//LS_JS_OBJECT rs = LS_JS_OBJECT::Parse( result );
+//std::cout << rs << std::endl;
+
+//LS_JS_OBJECT s1String( "43.2" )
+//LS_JS_STRINGIFY(LS_JS_OBJECT,s1)
+//LS_JS_PARSE(LS_JS_OBJECT)
+
+//LS_JS_OBJECT s1String( "43.2" );
+//LS_JS_STRINGIFY(LS_JS_OBJECT,s1)
+//LS_JS_OBJECT rs = LS_JS_OBJECT::Parse( tmp );
+//std::cout << rs << std::endl;
+//std::cout << LS_JS_OBJECT::Parse( tmp ) << std::endl;
 
 LS_JS_TEST(LS_JS_OBJECT,a0,)
 LS_JS_TEST(LS_JS_OBJECT,a1,( false ))
